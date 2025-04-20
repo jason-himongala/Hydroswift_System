@@ -2,12 +2,7 @@
   <v-container class="py-10 order-history-section" fluid>
     <v-row justify="center">
       <v-col cols="12" md="10">
-        <v-btn
-          color="primary"
-          class="mb-4"
-          outlined
-          @click="$router.push('/Homepage')"
-        >
+        <v-btn color="primary" class="mb-4" outlined @click="$router.push('/Homepage')">
           <v-icon left>mdi-arrow-left</v-icon>
         </v-btn>
 
@@ -21,12 +16,6 @@
               class="elevation-1"
               disable-sort
             >
-              <template #item.status="{ item }">
-                <v-chip :color="getStatusColor(item.status)" small dark>
-                  {{ item.status }}
-                </v-chip>
-              </template>
-
               <template #no-data>
                 <div class="text-center py-6">
                   <v-icon size="48" color="grey lighten-1">mdi-cart-off</v-icon>
@@ -43,7 +32,7 @@
 
 <script>
 export default {
-  name: "OrderHistoryView",
+  name: 'OrderHistoryView',
   data() {
     return {
       orderHeaders: [
@@ -76,23 +65,23 @@ export default {
           status: 'Cancelled',
         },
       ],
-    };
+    }
   },
   methods: {
     getStatusColor(status) {
       switch (status) {
         case 'Delivered':
-          return 'green';
+          return 'green'
         case 'Pending':
-          return 'orange';
+          return 'orange'
         case 'Cancelled':
-          return 'red';
+          return 'red'
         default:
-          return 'grey';
+          return 'grey'
       }
     },
   },
-};
+}
 </script>
 
 <style scoped>
