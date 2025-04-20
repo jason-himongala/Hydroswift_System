@@ -2,6 +2,11 @@
   <v-container class="profile-section py-10" fluid>
     <v-row justify="center">
       <v-col cols="12" md="8">
+        <!-- Back to Home Button -->
+        <v-btn color="primary" class="mb-4" outlined @click="$router.push('/Homepage')">
+          <v-icon left>mdi-arrow-left</v-icon> 
+        </v-btn>
+
         <v-card class="profile-card" elevation="12" rounded="xl">
           <!-- Banner -->
           <v-img
@@ -25,8 +30,6 @@
           <!-- Tabs -->
           <v-tabs v-model="tab" background-color="transparent" grow>
             <v-tab>Profile Info</v-tab>
-            <v-tab>Order History</v-tab>
-            <v-tab>Settings</v-tab>
           </v-tabs>
 
           <v-divider></v-divider>
@@ -52,35 +55,6 @@
               </v-card-text>
             </v-tab-item>
 
-            <!-- Order History Tab -->
-            <v-tab-item>
-              <v-card-text>
-                <v-data-table
-                  :headers="orderHeaders"
-                  :items="orderHistory"
-                  class="elevation-1"
-                  disable-sort
-                >
-                  <template #item.status="{ item }">
-                    <v-chip
-                      :color="getStatusColor(item.status)"
-                      small
-                      dark
-                    >
-                      {{ item.status }}
-                    </v-chip>
-                  </template>
-
-                  <template #no-data>
-                    <div class="text-center py-6">
-                      <v-icon size="48" color="grey lighten-1">mdi-cart-off</v-icon>
-                      <p class="text-subtitle-1 mt-2">No order history found.</p>
-                    </div>
-                  </template>
-                </v-data-table>
-              </v-card-text>
-            </v-tab-item>
-
             <!-- Settings Tab -->
             <v-tab-item>
               <v-card-text>
@@ -88,7 +62,7 @@
                   <v-icon left>mdi-pencil</v-icon>Edit Profile
                 </v-btn>
                 <v-btn color="red lighten-1" class="mt-2" rounded outlined>
-                  <v-icon left>mdi-logout</v-icon>Logout
+                  <v-icon left>mdi-logout</v-icon> <router-link to="/Login">Logout</router-link>
                 </v-btn>
               </v-card-text>
             </v-tab-item>
@@ -101,57 +75,13 @@
 
 <script>
 export default {
-  name: "HydroswiftProfile",
+  name: 'HydroswiftProfile',
   data() {
     return {
       tab: 0,
-      orderHeaders: [
-        { text: 'Order ID', value: 'orderId' },
-        { text: 'Date', value: 'date' },
-        { text: 'Product', value: 'product' },
-        { text: 'Quantity', value: 'quantity' },
-        { text: 'Status', value: 'status' },
-      ],
-      orderHistory: [
-        {
-          orderId: 'ORD-1001',
-          date: '2025-04-15',
-          product: 'Refill Gallon',
-          quantity: 5,
-          status: 'Delivered',
-        },
-        {
-          orderId: 'ORD-1002',
-          date: '2025-04-17',
-          product: 'Container 5L',
-          quantity: 2,
-          status: 'Pending',
-        },
-        {
-          orderId: 'ORD-1003',
-          date: '2025-04-19',
-          product: 'Refill Gallon',
-          quantity: 3,
-          status: 'Cancelled',
-        },
-      ],
-    };
+    }
   },
-  methods: {
-    getStatusColor(status) {
-      switch (status) {
-        case 'Delivered':
-          return 'green';
-        case 'Pending':
-          return 'orange';
-        case 'Cancelled':
-          return 'red';
-        default:
-          return 'grey';
-      }
-    },
-  },
-};
+}
 </script>
 
 <style scoped>
