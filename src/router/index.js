@@ -5,6 +5,7 @@ import RegistercustomerView from '@/views/auth/RegistercustomerView.vue'
 import RegisterstationView from '@/views/auth/RegisterstationView.vue'
 import ConfirmationView from '@/views/auth/ConfirmationView.vue'
 import HomepageView from '@/views/auth/HomepageView.vue'
+import ProfileView from '@/views/auth/ProfileView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,7 +40,11 @@ const router = createRouter({
       name: 'Homepage',
       component: HomepageView,
     },
-
+    {
+      path: '/Profile',
+      name: 'Profile',
+      component: ProfileView,
+    },
 
   ],
 })
