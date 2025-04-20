@@ -4,12 +4,13 @@ import UsertypeView from '@/views/auth/UsertypeView.vue'
 import RegistercustomerView from '@/views/auth/RegistercustomerView.vue'
 import RegisterstationView from '@/views/auth/RegisterstationView.vue'
 import ConfirmationView from '@/views/auth/ConfirmationView.vue'
+import HomepageView from '@/views/auth/HomepageView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/Login',
       name: 'Login',
       component: LoginView,
     },
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/Confirmation',
       name: 'Confirmation',
       component: ConfirmationView,
+    },
+    {
+      path: '/Homepage',
+      name: 'Homepage',
+      component: HomepageView,
     },
 
 
