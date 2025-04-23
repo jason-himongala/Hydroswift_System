@@ -57,16 +57,13 @@ const router = createRouter({
       name: 'History',
       component: HistoryView,
     },
-<<<<<<< HEAD
-=======
+    
     {
       path: '/Order',
       name: 'Order',
       component: OrderView,
     },
 
-
->>>>>>> 1d21596 (feat: added ordeview and enhance design)
   ],
 })
 
