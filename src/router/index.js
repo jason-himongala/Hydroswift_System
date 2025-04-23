@@ -12,6 +12,10 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
+      path: '/',
+      redirect: '/Login',
+    },
+    {
       path: '/Login',
       name: 'Login',
       component: LoginView,
@@ -51,10 +55,7 @@ const router = createRouter({
       name: 'History',
       component: HistoryView,
     },
-
-
   ],
 })
 
 export default router
-
