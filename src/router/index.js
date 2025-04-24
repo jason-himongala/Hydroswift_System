@@ -7,10 +7,16 @@ import ConfirmationView from '@/views/auth/ConfirmationView.vue'
 import HomepageView from '@/views/auth/HomepageView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
 import HistoryView from '@/views/auth/HistoryView.vue'
+import OrderView from '@/views/auth/OrderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    {
+      path: '/',
+      redirect: '/Login',
+    },
+
     {
       path: '/Login',
       name: 'Login',
@@ -51,10 +57,14 @@ const router = createRouter({
       name: 'History',
       component: HistoryView,
     },
-
+    
+    {
+      path: '/Order',
+      name: 'Order',
+      component: OrderView,
+    },
 
   ],
 })
 
 export default router
-
