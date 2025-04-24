@@ -19,8 +19,19 @@ const totalAmount = computed(() =>
   stations.value.reduce((acc, item) => acc + item.price * item.quantity, 0)
 )
 
+// Form data
+const fullName = ref('')
+const address = ref('')
+const contact = ref('')
+const paymentMethod = ref('')
+
 const confirmOrder = () => {
-  alert('Order placed successfully!')
+  if (!fullName.value || !address.value || !contact.value || !paymentMethod.value) {
+    alert('Please fill out all the fields before confirming your order.')
+    return
+  }
+
+  alert(`Order placed successfully!\nPayment Method: ${paymentMethod.value}`)
   router.push('/Homepage')
 }
 </script>
@@ -59,9 +70,18 @@ const confirmOrder = () => {
 
         <v-row justify="center">
           <v-col cols="12" md="6">
-            <v-text-field label="Full Name" outlined dense required></v-text-field>
-            <v-text-field label="Delivery Address" outlined dense required></v-text-field>
-            <v-text-field label="Contact Number" outlined dense required></v-text-field>
+            <v-text-field label="Full Name" outlined dense v-model="fullName" required></v-text-field>
+            <v-text-field label="Delivery Address" outlined dense v-model="address" required></v-text-field>
+            <v-text-field label="Contact Number" outlined dense v-model="contact" required></v-text-field>
+
+            <v-select
+              label="Select Payment Method"
+              :items="['GCash', 'Cash on Delivery', 'Credit/Debit Card']"
+              v-model="paymentMethod"
+              outlined
+              dense
+              required
+            ></v-select>
           </v-col>
         </v-row>
 
