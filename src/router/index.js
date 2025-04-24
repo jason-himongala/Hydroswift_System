@@ -8,6 +8,7 @@ import HomepageView from '@/views/auth/HomepageView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
 import HistoryView from '@/views/auth/HistoryView.vue'
 import OrderView from '@/views/auth/OrderView.vue'
+import PlaceorderView from '@/views/auth/PlaceorderView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -57,11 +58,16 @@ const router = createRouter({
       name: 'History',
       component: HistoryView,
     },
-    
+
     {
       path: '/Order',
       name: 'Order',
       component: OrderView,
+    },
+    {
+      path: '/placeorder',
+      name: 'Placeorder',
+      component: PlaceorderView,
     },
 
   ],
