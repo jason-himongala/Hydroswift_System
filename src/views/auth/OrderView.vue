@@ -2,9 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
-
 const router = useRouter()
-
 
 const stations = ref([
   { name: 'AquaPure Station', price: 25, quantity: 0, image: 'https://img.freepik.com/free-vector/clean-water-delivery-service-truck_23-2148623172.jpg' },
@@ -26,7 +24,10 @@ const decrement = (index) => {
 const placeOrder = () => {
   const selected = stations.value.filter(s => s.quantity > 0)
   if (selected.length) {
-    router.push('/placeorder')
+    router.push({
+      path: '/placeorder',
+      query: { stations: JSON.stringify(selected) }
+    })
   } else {
     alert('Please select at least one station with quantity.')
   }
