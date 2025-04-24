@@ -38,10 +38,26 @@ const placeOrder = () => {
   <v-responsive class="order-page" style="min-height: 100vh">
     <v-app>
       <v-main>
-        <v-container class="py-10 text-center">
-          <h1 class="text-h4 font-weight-bold mb-8" style="font-family: 'Comic Sans MS'">
-            Choose a Water Station
-          </h1>
+        <v-container class="py-6 px-4">
+          <!-- Back Button Left Aligned -->
+          <div class="d-flex justify-start mb-4">
+            <v-btn
+              @click="router.back()"
+              color="blue-lighten-4"
+              class="text-black px-4"
+              rounded
+            >
+              <v-icon left>mdi-arrow-left</v-icon>
+              Back
+            </v-btn>
+          </div>
+
+          <div class="text-center">
+            <h1 class="text-h4 font-weight-bold mb-8" style="font-family: 'Comic Sans MS'">
+              Choose a Water Station
+            </h1>
+          </div>
+
           <v-row class="justify-center" v-motion-fade>
             <v-col
               v-for="(station, index) in stations"
@@ -67,16 +83,18 @@ const placeOrder = () => {
             </v-col>
           </v-row>
 
-          <v-btn
-            color="blue-darken-2"
-            class="mt-8 px-8 py-4 text-white"
-            size="large"
-            style="font-weight: bold; font-style: italic"
-            @click="placeOrder"
-            v-motion-pop
-          >
-            Place Order
-          </v-btn>
+          <div class="text-center">
+            <v-btn
+              color="blue-darken-2"
+              class="mt-8 px-8 py-4 text-white"
+              size="large"
+              style="font-weight: bold; font-style: italic"
+              @click="placeOrder"
+              v-motion-pop
+            >
+              Place Order
+            </v-btn>
+          </div>
         </v-container>
       </v-main>
     </v-app>
