@@ -1,8 +1,30 @@
 <script setup>
 import { ref } from 'vue'
+import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
 
 const theme = ref('light')
 const isPasswordVisible = ref(false)
+
+const formDataDefault = {
+  email: '',
+  password: '',
+}
+
+const formData = ref({
+  ...formDataDefault,
+})
+
+const refVForm = ref()
+
+const onLogin = () => {
+  alert(`Logging in as: ${formData.value.email}`)
+}
+
+const onFormSubmit = () => {
+  refVForm.value?.validate().then(({ valid }) => {
+    if (valid) onLogin()
+  })
+}
 
 function toggleTheme() {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
@@ -43,29 +65,46 @@ function toggleTheme() {
                 Hydroswift
               </h2>
 
-              <v-text-field
-                label="Username"
-                variant="outlined"
-                class="mb-4"
-                density="comfortable"
-                rounded
-                hide-details
-                :color="theme === 'dark' ? 'blue-lighten-2' : 'primary'"
-              ></v-text-field>
+              <v-form ref="refVForm" fast-fail @submit.prevent="onFormSubmit">
+                <v-text-field
+                  v-model="formData.email"
+                  label="Username"
+                  :rules="[requiredValidator, emailValidator]"
+                  variant="outlined"
+                  class="mb-4"
+                  density="comfortable"
+                  rounded
+                  :color="theme === 'dark' ? 'blue-lighten-2' : 'primary'"
+                />
 
-              <v-text-field
-                label="Password"
-                :type="isPasswordVisible ? 'text' : 'password'"
-                prepend-inner-icon="mdi-lock"
-                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                variant="outlined"
-                class="mb-2"
-                density="comfortable"
-                rounded
-                hide-details
-                :color="theme === 'dark' ? 'blue-lighten-2' : 'primary'"
-              ></v-text-field>
+                <v-text-field
+                  v-model="formData.password"
+                  :type="isPasswordVisible ? 'text' : 'password'"
+                  label="Password"
+                  :rules="[requiredValidator]"
+                  prepend-inner-icon="mdi-lock"
+                  :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                  variant="outlined"
+                  class="mb-2"
+                  density="comfortable"
+                  rounded
+                  :color="theme === 'dark' ? 'blue-lighten-2' : 'primary'"
+                />
+
+                <v-btn
+                  type="submit"
+                  block
+                  :color="theme === 'dark' ? 'blue-darken-1' : 'blue-darken-3'"
+                  size="large"
+                  variant="flat"
+                  class="mb-4"
+                  style="font-weight: bold; font-style: italic"
+                  prepend-icon="mdi-login"
+                >
+                  Log in
+                </v-btn>
+              </v-form>
 
               <div
                 class="d-flex align-center justify-space-between text-caption mb-4"
@@ -85,18 +124,6 @@ function toggleTheme() {
                   ><u>Forgot password</u></a
                 >
               </div>
-              <v-btn
-                block
-                :color="theme === 'dark' ? 'blue-darken-1' : 'blue-darken-3'"
-                size="large"
-                variant="flat"
-                class="mb-4"
-                style="font-weight: bold; font-style: italic"
-                prepend-icon="mdi-login"
-                to="/Homepage"
-              >
-                Log in
-              </v-btn>
 
               <div class="d-flex align-center justify-center mb-3 text-grey">
                 <span>──────── or ────────</span>
