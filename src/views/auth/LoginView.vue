@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 
 const theme = ref('light')
+const isPasswordVisible = ref(false)
 
 function toggleTheme() {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
@@ -54,7 +55,10 @@ function toggleTheme() {
 
               <v-text-field
                 label="Password"
-                type="password"
+                :type="isPasswordVisible ? 'text' : 'password'"
+                prepend-inner-icon="mdi-lock"
+                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner="isPasswordVisible = !isPasswordVisible"
                 variant="outlined"
                 class="mb-2"
                 density="comfortable"
