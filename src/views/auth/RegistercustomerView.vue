@@ -155,8 +155,10 @@ const onFormSubmit = () => {
               class="mt-4"
               style="font-weight: bold; font-style: italic"
             >
-              Register
+            <router-link to="/Confirmation"> Register</router-link>
             </v-btn>
+
+
           </v-form>
 
         </v-card>
