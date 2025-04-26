@@ -3,15 +3,12 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const form = ref({
-  firstName: '',
-  lastName: '',
+
   stationName: '',
   contactNumber: '',
   email: '',
   streetAddress: '',
-  city: '',
-  state: '',
-  postalCode: ''
+
 });
 
 const router = useRouter();
@@ -105,32 +102,6 @@ function goBack() {
             <v-text-field
               v-model="form.streetAddress"
               label="Street Address"
-              variant="outlined"
-              required
-            ></v-text-field>
-
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.city"
-                  label="City"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.state"
-                  label="State/Province"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-text-field
-              v-model="form.postalCode"
-              label="Postal/Zip Code"
               variant="outlined"
               required
             ></v-text-field>
