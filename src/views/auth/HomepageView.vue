@@ -80,7 +80,7 @@ function toggleTheme() {
           <v-row class="d-flex justify-center">
             <v-col cols="12" sm="8" md="6" class="pa-4 rounded-lg elevation-4 animated-card">
               <v-img
-                src="/public/image/truck-logo.jpg"
+                src="/image/truck-logo.jpg"
                 alt="Water Truck"
                 contain
                 height="180"
