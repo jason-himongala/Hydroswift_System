@@ -3,18 +3,16 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { requiredValidator, emailValidator, passwordValidator, confirmedValidator } from '@/utils/validators'
 
-const form = ref({
+const formDataDefault = {
   username: '',
   password: '',
   password_confirm: '',
   contactNumber: '',
   email: '',
   streetAddress: '',
-})
+}
 
-const formData = ref({
-  ...formDataDefault
-})
+const formData = ref({ ...formDataDefault })
 
 const isPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
@@ -28,7 +26,7 @@ function goBack() {
 }
 
 function onRegister() {
-  alert(`Registering: ${form.value.firstName}`)
+  alert(`Registering: ${formData.value.username}`)
   router.push('/Confirmation')
 }
 
@@ -109,7 +107,7 @@ const onFormSubmit = () => {
               label="Confirm Password"
               :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-              :rules="[requiredValidator,  confirmedValidator(formData.password_confirm, formData.password) ]"
+              :rules="[requiredValidator, confirmedValidator(formData.password, formData.password_confirm)]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
               required
@@ -118,7 +116,7 @@ const onFormSubmit = () => {
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.contactNumber"
+                  v-model="formData.contactNumber"
                   label="Contact Number"
                   type="tel"
                   :rules="[requiredValidator]"
@@ -130,7 +128,7 @@ const onFormSubmit = () => {
 
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.email"
+                  v-model="formData.email"
                   label="Email Address"
                   type="email"
                   :rules="[requiredValidator, emailValidator]"
@@ -142,7 +140,7 @@ const onFormSubmit = () => {
             </v-row>
 
             <v-text-field
-              v-model="form.streetAddress"
+              v-model="formData.streetAddress"
               label="Street Address"
               :rules="[requiredValidator]"
               variant="outlined"
@@ -159,10 +157,8 @@ const onFormSubmit = () => {
               class="mt-4"
               style="font-weight: bold; font-style: italic"
             >
-            <router-link to="/Confirmation"> Register</router-link>
+              Register
             </v-btn>
-
-
           </v-form>
 
         </v-card>
