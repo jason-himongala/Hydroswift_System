@@ -1,7 +1,13 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { requiredValidator, emailValidator, passwordValidator, confirmedValidator } from '@/utils/validators'
+import {
+  requiredValidator,
+  emailValidator,
+  passwordValidator,
+  confirmedValidator,
+} from '@/utils/validators'
+import { supabase, formActionDefault } from '@/utils/supabase.js'
 
 const formDataDefault = {
   username: '',
@@ -13,21 +19,44 @@ const formDataDefault = {
 }
 
 const formData = ref({ ...formDataDefault })
+const formAction = ref({ ...formActionDefault })
 
 const isPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
 
 const refVForm = ref()
-
 const router = useRouter()
 
 function goBack() {
   router.back()
 }
 
-function onRegister() {
-  alert(`Registering: ${formData.value.username}`)
-  router.push('/Confirmation')
+async function onRegister() {
+  formAction.value.formProcess = true
+
+  const { data, error } = await supabase
+    .from('customers')
+    .insert([
+      {
+        username: formData.value.username,
+        password: formData.value.password,
+        contact_number: formData.value.contactNumber,
+        email: formData.value.email,
+        street_address: formData.value.streetAddress,
+      },
+    ])
+
+  formAction.value.formProcess = false
+
+  if (error) {
+    console.error('Registration error:', error.message)
+    alert('Registration failed: ' + error.message)
+  } else {
+    console.log('Registration successful:', data)
+    alert('Registration successful!')
+    Object.assign(formData.value, formDataDefault)
+    router.push('/Confirmation')
+  }
 }
 
 const onFormSubmit = () => {
@@ -43,7 +72,12 @@ const onFormSubmit = () => {
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
-        <v-card elevation="12" class="pa-6 rounded-xl" max-width="700" style="background-color: #e3f2fd">
+        <v-card
+          elevation="12"
+          class="pa-6 rounded-xl"
+          max-width="700"
+          style="background-color: #e3f2fd"
+        >
           <!-- Logo -->
           <div class="d-flex justify-center">
             <img
@@ -72,7 +106,7 @@ const onFormSubmit = () => {
             Tell us about yourself!
           </v-card-subtitle>
 
-          <!-- Form Fields -->
+          <!-- Form -->
           <v-form ref="refVForm" @submit.prevent="onFormSubmit">
             <v-row>
               <v-col cols="12" sm="6">
@@ -107,7 +141,10 @@ const onFormSubmit = () => {
               label="Confirm Password"
               :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-              :rules="[requiredValidator, confirmedValidator(formData.password, formData.password_confirm)]"
+              :rules="[
+                requiredValidator,
+                confirmedValidator(() => formData.value.password, () => formData.value.password_confirm)
+              ]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
               required
@@ -156,11 +193,11 @@ const onFormSubmit = () => {
               size="large"
               class="mt-4"
               style="font-weight: bold; font-style: italic"
+              :loading="formAction.formProcess"
             >
               Register
             </v-btn>
           </v-form>
-
         </v-card>
       </v-container>
     </v-main>

@@ -1,11 +1,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
+import { requiredValidator, emailValidator, passwordValidator, confirmedValidator } from '@/utils/validators'
 
 const form = ref({
-  firstName: '',
-  lastName: '',
+  username: '',
+  password: '',
+  passwordConfirm: '',
   stationName: '',
   contactNumber: '',
   email: '',
@@ -24,7 +25,7 @@ function goBack() {
 }
 
 function onRegister() {
-  alert(`Registering: ${form.value.firstName}`)
+  alert(`Registering Station: ${form.value.stationName}`)
   router.push('/Confirmation')
 }
 
@@ -61,21 +62,21 @@ const onFormSubmit = () => {
               class="text-h5 font-weight-bold text-center flex-grow-1"
               style="font-family: 'Comic Sans MS'; color: #0d47a1"
             >
-              Customer Registration Form
+              Station Registration Form
             </v-card-title>
           </div>
 
           <!-- Subtitle -->
           <v-card-subtitle class="text-center mb-4" style="color: #1976d2">
-            Tell us about yourself!
+            Register your water station here!
           </v-card-subtitle>
 
           <!-- Form Fields -->
-          <v-form ref="refVForm" fast-fail @submit.prevent="onFormSubmit">
+          <v-form ref="refVForm" @submit.prevent="onFormSubmit">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.firstName"
+                  v-model="form.username"
                   label="Username"
                   :rules="[requiredValidator]"
                   variant="outlined"
@@ -86,12 +87,12 @@ const onFormSubmit = () => {
 
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.lastName"
+                  v-model="form.password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                  :rules="[requiredValidator,passwordValidator]"
+                  :rules="[requiredValidator, passwordValidator]"
                   variant="outlined"
                   prepend-inner-icon="mdi-lock"
                   required
@@ -100,14 +101,23 @@ const onFormSubmit = () => {
             </v-row>
 
             <v-text-field
-              v-model="form.stationName"
+              v-model="form.passwordConfirm"
               :type="isConfirmPasswordVisible ? 'text' : 'password'"
               label="Confirm Password"
               :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-              :rules="[requiredValidator, passwordValidator]"
+              :rules="[requiredValidator, confirmedValidator(form.password, form.passwordConfirm)]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
+              required
+            />
+
+            <v-text-field
+              v-model="form.stationName"
+              label="Station Name"
+              :rules="[requiredValidator]"
+              variant="outlined"
+              prepend-inner-icon="mdi-store"
               required
             />
 
@@ -155,7 +165,7 @@ const onFormSubmit = () => {
               class="mt-4"
               style="font-weight: bold; font-style: italic"
             >
-             <router-link to="/Confirmation"> Register</router-link>
+              Register
             </v-btn>
           </v-form>
 
