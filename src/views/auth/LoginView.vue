@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { requiredValidator, emailValidator} from '@/utils/validators'
+import { requiredValidator, emailValidator, passwordValidator,} from '@/utils/validators'
 
 const theme = ref('light')
 const isPasswordVisible = ref(false)
@@ -65,7 +65,7 @@ function toggleTheme() {
                 Hydroswift
               </h2>
 
-              <v-form ref="refVForm" fast-fail @submit.prevent="onFormSubmit">
+              <v-form ref="refVForm" @submit.prevent="onFormSubmit">
                 <v-text-field
                   v-model="formData.email"
                   label="Username"
@@ -81,7 +81,7 @@ function toggleTheme() {
                   v-model="formData.password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
-                  :rules="[requiredValidator]"
+                  :rules="[requiredValidator,passwordValidator]"
                   prepend-inner-icon="mdi-lock"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"

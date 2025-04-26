@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { requiredValidator, emailValidator } from '@/utils/validators'
+import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
 
 const form = ref({
   firstName: '',
@@ -91,7 +91,7 @@ const onFormSubmit = () => {
                   label="Password"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                  :rules="[requiredValidator]"
+                  :rules="[requiredValidator,passwordValidator]"
                   variant="outlined"
                   prepend-inner-icon="mdi-lock"
                   required
@@ -105,7 +105,7 @@ const onFormSubmit = () => {
               label="Confirm Password"
               :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-              :rules="[requiredValidator]"
+              :rules="[requiredValidator, passwordValidator]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
               required

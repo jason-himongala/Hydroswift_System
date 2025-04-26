@@ -1,15 +1,19 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { requiredValidator, emailValidator } from '@/utils/validators'
+import { requiredValidator, emailValidator, passwordValidator, confirmedValidator } from '@/utils/validators'
 
 const form = ref({
-  firstName: '',
-  lastName: '',
-  stationName: '',
+  username: '',
+  password: '',
+  password_confirm: '',
   contactNumber: '',
   email: '',
   streetAddress: '',
+})
+
+const formData = ref({
+  ...formDataDefault
 })
 
 const isPasswordVisible = ref(false)
@@ -71,11 +75,11 @@ const onFormSubmit = () => {
           </v-card-subtitle>
 
           <!-- Form Fields -->
-          <v-form ref="refVForm" fast-fail @submit.prevent="onFormSubmit">
+          <v-form ref="refVForm" @submit.prevent="onFormSubmit">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.firstName"
+                  v-model="formData.username"
                   label="Username"
                   :rules="[requiredValidator]"
                   variant="outlined"
@@ -86,12 +90,12 @@ const onFormSubmit = () => {
 
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.lastName"
+                  v-model="formData.password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
-                  :rules="[requiredValidator]"
+                  :rules="[requiredValidator, passwordValidator]"
                   variant="outlined"
                   prepend-inner-icon="mdi-lock"
                   required
@@ -100,12 +104,12 @@ const onFormSubmit = () => {
             </v-row>
 
             <v-text-field
-              v-model="form.stationName"
+              v-model="formData.password_confirm"
               :type="isConfirmPasswordVisible ? 'text' : 'password'"
               label="Confirm Password"
               :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
-              :rules="[requiredValidator]"
+              :rules="[requiredValidator,  confirmedValidator(formData.password_confirm, formData.password) ]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
               required
