@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
+import { requiredValidator, emailValidator} from '@/utils/validators'
 
 const theme = ref('light')
 const isPasswordVisible = ref(false)

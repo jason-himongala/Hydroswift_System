@@ -9,9 +9,6 @@ const form = ref({
   contactNumber: '',
   email: '',
   streetAddress: '',
-  city: '',
-  state: '',
-  postalCode: '',
 })
 
 const router = useRouter()
@@ -32,7 +29,12 @@ function goBack() {
         >
           <!-- Logo -->
           <div class="d-flex justify-center">
-            <img src="/image/logo-removebg-preview.png" alt="Water Truck Logo" width="100" class="my-5 pt-2" />
+            <img
+              src="/image/logo-removebg-preview.png"
+              alt="Water Truck Logo"
+              width="100"
+              class="my-5 pt-2"
+            />
           </div>
 
           <!-- Header with Go Back button -->
@@ -103,32 +105,6 @@ function goBack() {
             <v-text-field
               v-model="form.streetAddress"
               label="Street Address"
-              variant="outlined"
-              required
-            ></v-text-field>
-
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.city"
-                  label="City"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.state"
-                  label="State/Province"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-text-field
-              v-model="form.postalCode"
-              label="Postal/Zip Code"
               variant="outlined"
               required
             ></v-text-field>
