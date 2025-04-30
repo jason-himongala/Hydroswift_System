@@ -80,6 +80,27 @@ const onFormSubmit = () => {
 </script>
 
 <template>
+  <v-alert
+    v-if="formAction.formSuccessMessage"
+    :text="formAction.formSuccessMessage"
+    title="Success!"
+    type="success"
+    variant="tonal"
+    density="compact"
+    border="start"
+    closable
+  ></v-alert>
+  <v-alert
+    v-if="formAction.formErrorMessageMessage"
+    :text="formAction.formErrorMessageMessage"
+    title="Ooops!"
+    type="error "
+    variant="tonal"
+    density="compact"
+    border="start"
+    closable
+  ></v-alert>
+
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
