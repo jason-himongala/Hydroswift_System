@@ -8,6 +8,8 @@ import {
   confirmedValidator,
 } from '@/utils/validators'
 
+import { supabase, formActionDefault } from '@/utils/supabase'
+
 const form = ref({
   username: '',
   password: '',
@@ -15,6 +17,10 @@ const form = ref({
   contactNumber: '',
   email: '',
   streetAddress: '',
+})
+
+const formAction = ref({
+  ...formActionDefault,
 })
 
 const isPasswordVisible = ref(false)
@@ -33,6 +39,8 @@ async function onRegister() {
   router.push('/Confirmation')
 }
 
+const onSubmit = () => {}
+
 const onFormSubmit = () => {
   refVForm.value?.validate().then(({ valid }) => {
     if (valid) {
@@ -46,7 +54,12 @@ const onFormSubmit = () => {
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
-        <v-card elevation="12" class="pa-6 rounded-xl" max-width="700" style="background-color: #e3f2fd">
+        <v-card
+          elevation="12"
+          class="pa-6 rounded-xl"
+          max-width="700"
+          style="background-color: #e3f2fd"
+        >
           <!-- Logo -->
           <div class="d-flex justify-center">
             <img
@@ -159,6 +172,8 @@ const onFormSubmit = () => {
               size="large"
               class="mt-4"
               style="font-weight: bold; font-style: italic"
+              :disabled="formAction.formProcess"
+              :loading="formAction.formProcess"
             >
               Register
             </v-btn>
