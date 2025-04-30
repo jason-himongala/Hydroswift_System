@@ -19,6 +19,10 @@ const form = ref({
   streetAddress: '',
 })
 
+const FormData = ref({
+  ...formActionDefault,
+})
+
 const formAction = ref({
   ...formActionDefault,
 })
@@ -40,22 +44,30 @@ async function onRegister() {
 }
 
 const onSubmit = async () => {
+  formAction.value = { ...formActionDefault }
+  formAction.value.formProcess = true
+
   const { data, error } = await supabase.auth.signUp({
-    email: 'example@email.com',
-    password: 'example-password',
+    email: FormData.value.email,
+    password: FormData.value.password,
     options: {
       data: {
-        first_name: 'John',
-        age: 27,
+        username: FormData.value.username,
+        password: FormData.value.password,
       },
     },
   })
+
+  formAction.value.formProcess = false
 }
 
 if (error) {
   console.log(error)
+  formAction.value.formErrorMessage = error.message
+  formAction.value.formStatus = error.status
 } else if (data) {
   console.log(data)
+  formAction.value.formSuccessMessage = 'Successfully Registered Account.'
 }
 
 const onFormSubmit = () => {
