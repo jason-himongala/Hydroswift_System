@@ -9,7 +9,7 @@ const station = ref({
   pricePerGallon: 15,
   feePerGallon: 5,
   quantity: 0,
-  image: 'https://img.freepik.com/free-vector/clean-water-delivery-service-truck_23-2148623172.jpg',
+  image: '/image/station.jpg', // Changed to local image
   location: 'Purok2 Barangay Libertad, Butuan City',
   rating: 4.8,
   reviews: 124,
