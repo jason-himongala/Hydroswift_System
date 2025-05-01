@@ -80,7 +80,7 @@ function toggleTheme() {
           <v-row class="d-flex justify-center">
             <v-col cols="12" sm="8" md="6" class="pa-4 rounded-lg elevation-4 animated-card">
               <v-img
-                src="/image/truck-logo.jpg"
+                src="/image/boy-bg.png"
                 alt="Water Truck"
                 contain
                 height="180"
@@ -110,9 +110,11 @@ function toggleTheme() {
       <v-footer
         app
         class="justify-center py-4 fade-in-bottom"
-        :style="theme === 'dark'
+        :style="
+          theme === 'dark'
             ? 'background-color: #0d1117; color: white'
-            : 'background-color: #bbdefb; color: #0d47a1'"
+            : 'background-color: #bbdefb; color: #0d47a1'
+        "
       >
         <div class="text-center">
           <span>Caraga State University</span>
@@ -180,7 +182,9 @@ function toggleTheme() {
 }
 
 .animated-card {
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
 }
 .animated-card:hover {
   transform: translateY(-5px);
