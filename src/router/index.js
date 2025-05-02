@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '@/views/auth/LoginView.vue'
 import UsertypeView from '@/views/auth/UsertypeView.vue'
-import RegistercustomerView from '@/views/auth/RegistercustomerView.vue'
-import RegisterstationView from '@/views/auth/RegisterstationView.vue'
+
+import RegisterscustomerView from '@/views/auth/RegisterscustomerView.vue'
 import ConfirmationView from '@/views/auth/ConfirmationView.vue'
 import HomepageView from '@/views/auth/HomepageView.vue'
 import ProfileView from '@/views/auth/ProfileView.vue'
@@ -28,15 +28,11 @@ const router = createRouter({
       name: 'Usertype',
       component: UsertypeView,
     },
+
     {
       path: '/Customer',
-      name: 'Customer',
-      component: RegistercustomerView,
-    },
-    {
-      path: '/Station',
       name: 'Station',
-      component: RegisterstationView,
+      component: RegisterscustomerView,
     },
     {
       path: '/Confirmation',
@@ -69,7 +65,6 @@ const router = createRouter({
       name: 'Placeorder',
       component: PlaceorderView,
     },
-
   ],
 })
 

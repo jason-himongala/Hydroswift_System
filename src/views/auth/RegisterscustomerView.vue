@@ -1,22 +1,43 @@
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import {
+  requiredValidator,
+  emailValidator,
+  passwordValidator,
+  confirmedValidator,
+} from '@/utils/validators'
 
 const form = ref({
-  firstName: '',
-  lastName: '',
-  stationName: '',
+  fullName: '',
+  password: '',
+  passwordConfirm: '',
   contactNumber: '',
   email: '',
   streetAddress: '',
-  city: '',
-  state: '',
-  postalCode: ''
-});
+})
 
-const router = useRouter();
+const isPasswordVisible = ref(false)
+const isConfirmPasswordVisible = ref(false)
+
+const refVForm = ref()
+const router = useRouter()
+
 function goBack() {
-  router.back();
+  router.back()
+}
+
+function onRegister() {
+  alert(`Registering Customer: ${form.value.fullName}`)
+  router.push('/Confirmation')
+}
+
+const onFormSubmit = () => {
+  refVForm.value?.validate().then(({ valid }) => {
+    if (valid) {
+      onRegister()
+    }
+  })
 }
 </script>
 
@@ -24,7 +45,12 @@ function goBack() {
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
-        <v-card elevation="12" class="pa-6 rounded-xl" max-width="700" style="background-color: #e3f2fd">
+        <v-card
+          elevation="12"
+          class="pa-6 rounded-xl"
+          max-width="700"
+          style="background-color: #e3f2fd"
+        >
           <!-- Logo -->
           <div class="d-flex justify-center">
             <img
@@ -50,36 +76,49 @@ function goBack() {
 
           <!-- Subtitle -->
           <v-card-subtitle class="text-center mb-4" style="color: #1976d2">
-            Tell us about your self!
+            Create your customer account below
           </v-card-subtitle>
 
           <!-- Form Fields -->
-          <v-form>
+          <v-form ref="refVForm" @submit.prevent="onFormSubmit">
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.firstName"
-                  label="Username"
+                  v-model="form.fullName"
+                  label="Full Name"
+                  :rules="[requiredValidator]"
                   variant="outlined"
+                  prepend-inner-icon="mdi-account"
                   required
-                ></v-text-field>
+                />
               </v-col>
+
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.lastName"
+                  v-model="form.password"
+                  :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
+                  :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+                  @click:append-inner="isPasswordVisible = !isPasswordVisible"
+                  :rules="[requiredValidator, passwordValidator]"
                   variant="outlined"
+                  prepend-inner-icon="mdi-lock"
                   required
-                ></v-text-field>
+                />
               </v-col>
             </v-row>
 
             <v-text-field
-              v-model="form.stationName"
+              v-model="form.passwordConfirm"
+              :type="isConfirmPasswordVisible ? 'text' : 'password'"
               label="Confirm Password"
+              :append-inner-icon="isConfirmPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
+              @click:append-inner="isConfirmPasswordVisible = !isConfirmPasswordVisible"
+              :rules="[requiredValidator, confirmedValidator(form.password, form.passwordConfirm)]"
               variant="outlined"
+              prepend-inner-icon="mdi-lock-check"
               required
-            ></v-text-field>
+            />
 
             <v-row>
               <v-col cols="12" sm="6">
@@ -87,63 +126,45 @@ function goBack() {
                   v-model="form.contactNumber"
                   label="Contact Number"
                   type="tel"
+                  :rules="[requiredValidator]"
                   variant="outlined"
+                  prepend-inner-icon="mdi-phone"
                   required
-                ></v-text-field>
+                />
               </v-col>
+
               <v-col cols="12" sm="6">
                 <v-text-field
                   v-model="form.email"
                   label="Email Address"
                   type="email"
+                  :rules="[requiredValidator, emailValidator]"
                   variant="outlined"
+                  prepend-inner-icon="mdi-email"
                   required
-                ></v-text-field>
+                />
               </v-col>
             </v-row>
 
             <v-text-field
               v-model="form.streetAddress"
               label="Street Address"
+              :rules="[requiredValidator]"
               variant="outlined"
+              prepend-inner-icon="mdi-home"
               required
-            ></v-text-field>
-
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.city"
-                  label="City"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field
-                  v-model="form.state"
-                  label="State/Province"
-                  variant="outlined"
-                  required
-                ></v-text-field>
-              </v-col>
-            </v-row>
-
-            <v-text-field
-              v-model="form.postalCode"
-              label="Postal/Zip Code"
-              variant="outlined"
-              required
-            ></v-text-field>
+            />
 
             <!-- Submit Button -->
             <v-btn
+              type="submit"
               block
               color="blue-darken-2"
               size="large"
               class="mt-4"
               style="font-weight: bold; font-style: italic"
             >
-              <router-link to="/Confirmation" class="text-white text-decoration-none">Register</router-link>
+              Register
             </v-btn>
           </v-form>
         </v-card>
