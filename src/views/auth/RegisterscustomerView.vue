@@ -2,12 +2,11 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {
-  supabase,
   requiredValidator,
   emailValidator,
   passwordValidator,
   confirmedValidator,
-} from '@/utils/validators/supabase'
+} from '@/utils/validators'
 
 const form = ref({
   fullName: '',
