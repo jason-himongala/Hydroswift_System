@@ -1,13 +1,17 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { requiredValidator, emailValidator, passwordValidator, confirmedValidator } from '@/utils/validators'
+import {
+  requiredValidator,
+  emailValidator,
+  passwordValidator,
+  confirmedValidator,
+} from '@/utils/validators'
 
 const form = ref({
-  username: '',
+  fullName: '',
   password: '',
   passwordConfirm: '',
-  stationName: '',
   contactNumber: '',
   email: '',
   streetAddress: '',
@@ -17,7 +21,6 @@ const isPasswordVisible = ref(false)
 const isConfirmPasswordVisible = ref(false)
 
 const refVForm = ref()
-
 const router = useRouter()
 
 function goBack() {
@@ -25,7 +28,7 @@ function goBack() {
 }
 
 function onRegister() {
-  alert(`Registering Station: ${form.value.stationName}`)
+  alert(`Registering Customer: ${form.value.fullName}`)
   router.push('/Confirmation')
 }
 
@@ -42,7 +45,12 @@ const onFormSubmit = () => {
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
-        <v-card elevation="12" class="pa-6 rounded-xl" max-width="700" style="background-color: #e3f2fd">
+        <v-card
+          elevation="12"
+          class="pa-6 rounded-xl"
+          max-width="700"
+          style="background-color: #e3f2fd"
+        >
           <!-- Logo -->
           <div class="d-flex justify-center">
             <img
@@ -62,13 +70,13 @@ const onFormSubmit = () => {
               class="text-h5 font-weight-bold text-center flex-grow-1"
               style="font-family: 'Comic Sans MS'; color: #0d47a1"
             >
-              Station Registration Form
+              Customer Registration Form
             </v-card-title>
           </div>
 
           <!-- Subtitle -->
           <v-card-subtitle class="text-center mb-4" style="color: #1976d2">
-            Register your water station here!
+            Create your customer account below
           </v-card-subtitle>
 
           <!-- Form Fields -->
@@ -76,8 +84,8 @@ const onFormSubmit = () => {
             <v-row>
               <v-col cols="12" sm="6">
                 <v-text-field
-                  v-model="form.username"
-                  label="Username"
+                  v-model="form.fullName"
+                  label="Full Name"
                   :rules="[requiredValidator]"
                   variant="outlined"
                   prepend-inner-icon="mdi-account"
@@ -109,15 +117,6 @@ const onFormSubmit = () => {
               :rules="[requiredValidator, confirmedValidator(form.password, form.passwordConfirm)]"
               variant="outlined"
               prepend-inner-icon="mdi-lock-check"
-              required
-            />
-
-            <v-text-field
-              v-model="form.stationName"
-              label="Station Name"
-              :rules="[requiredValidator]"
-              variant="outlined"
-              prepend-inner-icon="mdi-store"
               required
             />
 
@@ -168,7 +167,6 @@ const onFormSubmit = () => {
               Register
             </v-btn>
           </v-form>
-
         </v-card>
       </v-container>
     </v-main>
