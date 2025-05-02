@@ -32,9 +32,11 @@ function toggleTheme() {
             class="pa-8 rounded-2xl text-center"
             elevation="12"
             max-width="420"
-            :style="theme === 'dark'
-              ? 'background-color: #1e293b; color: #e0e0e0;'
-              : 'background-color: #e1f5fe; color: #01579b;'"
+            :style="
+              theme === 'dark'
+                ? 'background-color: #1e293b; color: #e0e0e0;'
+                : 'background-color: #e1f5fe; color: #01579b;'
+            "
           >
             <div class="mb-8">
               <img
@@ -43,23 +45,19 @@ function toggleTheme() {
                 width="180"
                 class="my-5"
               />
-              <h1 class="welcome-text">
-                Welcome to Hydroswift
-              </h1>
+              <h1 class="welcome-text">Welcome to Hydroswift</h1>
             </div>
-
-           
 
             <v-btn
               block
               size="large"
               class="custom-btn"
-              :style="theme === 'dark'
-                ? 'background-color: #1e88e5;'
-                : 'background-color: #1976d2;'"
+              :style="
+                theme === 'dark' ? 'background-color: #1e88e5;' : 'background-color: #1976d2;'
+              "
               rounded="lg"
             >
-              <RouterLink to="/Customer" class="btn-link">Register as a customer</RouterLink>
+              <RouterLink to="/Customer" class="btn-link">Register here</RouterLink>
             </v-btn>
           </v-card>
         </v-container>
@@ -68,13 +66,17 @@ function toggleTheme() {
       <v-footer
         app
         class="justify-center py-4"
-        :style="theme === 'dark'
-          ? 'background-color: #0d1117; color: #e0e0e0;'
-          : 'background-color: #b3e5fc; color: #01579b;'"
+        :style="
+          theme === 'dark'
+            ? 'background-color: #0d1117; color: #e0e0e0;'
+            : 'background-color: #b3e5fc; color: #01579b;'
+        "
       >
         <div class="text-center">
           <span class="footer-text">Caraga State University</span>
-          <div class="footer-logo"><strong><u>HYDROSWIFT</u></strong></div>
+          <div class="footer-logo">
+            <strong><u>HYDROSWIFT</u></strong>
+          </div>
         </div>
       </v-footer>
     </v-app>
@@ -106,7 +108,9 @@ body {
 .custom-btn {
   font-weight: bold;
   font-size: 16px;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
 }
 
 .custom-btn:hover {
@@ -144,6 +148,5 @@ body {
   bottom: 0;
   background: url('/image/hs-bg.jpg') center/cover no-repeat;
   z-index: 0;
-
 }
 </style>
