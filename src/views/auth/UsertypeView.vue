@@ -48,17 +48,7 @@ function toggleTheme() {
               </h1>
             </div>
 
-            <v-btn
-              block
-              size="large"
-              class="mb-4 custom-btn"
-              :style="theme === 'dark'
-                ? 'background-color: #1e88e5;'
-                : 'background-color: #1976d2;'"
-              rounded="lg"
-            >
-              <RouterLink to="/Station" class="btn-link">Register your station</RouterLink>
-            </v-btn>
+           
 
             <v-btn
               block

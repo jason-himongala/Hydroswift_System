@@ -102,7 +102,7 @@ function toggleTheme() {
                   style="font-weight: bold; font-style: italic"
                   prepend-icon="mdi-login"
                 >
-                  Log in
+                 <router-link to="/Homepage">Log in</router-link> 
                 </v-btn>
               </v-form>
 
