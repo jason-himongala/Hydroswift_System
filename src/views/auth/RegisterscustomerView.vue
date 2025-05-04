@@ -63,6 +63,7 @@ const onSubmit = async () => {
   } else if (data) {
     console.log(data)
     formAction.value.formSuccessMessage = 'Successfuly Registered Account.'
+    refVForm.value?.reset()
   }
 
   formAction.value.formProcess = false
