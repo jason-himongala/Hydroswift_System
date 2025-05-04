@@ -9,9 +9,9 @@ export const supabase = createClient(
 
 //form util action
 
-export const formDataDefault = {
+export const formActionDefault = {
   formProcess: false,
   formStatus: 200,
   formErrorMessage: '',
-  formSuccessMessage: ''
+  formSuccessMessage: '',
 }
