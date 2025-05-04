@@ -1,9 +1,12 @@
 <script setup>
+import { formActionDefault, supabase } from '@/utils/supabase'
 import { ref } from 'vue'
-import { requiredValidator, emailValidator, passwordValidator,} from '@/utils/validators'
+import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
+import { useRouter } from 'vue-router'
 
 const theme = ref('light')
 const isPasswordVisible = ref(false)
+const router = useRouter()
 
 const formDataDefault = {
   email: '',
@@ -29,6 +32,26 @@ const onFormSubmit = () => {
 function toggleTheme() {
   theme.value = theme.value === 'light' ? 'dark' : 'light'
 }
+
+const onSubmit = async () => {
+  formAction.value = { ...formActionDefault }
+  formAction.value.formProcess = true
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email: formData.value.email,
+    password: formData.value.password,
+  })
+  if (error) {
+    formAction.value.formErrorMessage = error.message
+    formAction.value.formStatus = error.status
+  } else if (data) {
+    formAction.value.formSuccessMessage = 'Successfully Logged Account.'
+    router.replace('/Homepage')
+  }
+  refVForm.value?.resent()
+  formAction.value.formProcess = false
+}
+
+const formAction = ref({ ...formActionDefault })
 </script>
 
 <template>
@@ -81,7 +104,7 @@ function toggleTheme() {
                   v-model="formData.password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
-                  :rules="[requiredValidator,passwordValidator]"
+                  :rules="[requiredValidator, passwordValidator]"
                   prepend-inner-icon="mdi-lock"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
@@ -101,8 +124,9 @@ function toggleTheme() {
                   class="mb-4"
                   style="font-weight: bold; font-style: italic"
                   prepend-icon="mdi-login"
+                  @click="onSubmit"
                 >
-                 <router-link to="/Homepage">Log in</router-link> 
+                  Log in
                 </v-btn>
               </v-form>
 
