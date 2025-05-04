@@ -28,11 +28,6 @@ function goBack() {
   router.back()
 }
 
-function onRegister() {
-  alert(`Registering Customer: ${form.value.fullName}`)
-  router.push('/Confirmation')
-}
-
 const onFormSubmit = () => {
   refVForm.value?.validate().then(({ valid }) => {
     if (valid) {
@@ -62,8 +57,11 @@ const onSubmit = async () => {
     formAction.value.formStatus = error.message
   } else if (data) {
     console.log(data)
-    formAction.value.formSuccessMessage = 'Successfuly Registered Account.'
+    formAction.value.formSuccessMessage = 'Successfully Registered Account.'
     refVForm.value?.reset()
+
+    // ✅ Automatically go to confirmation page after success
+    router.push('/Confirmation')
   }
 
   formAction.value.formProcess = false
