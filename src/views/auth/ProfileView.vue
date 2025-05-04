@@ -4,7 +4,7 @@
       <v-col cols="12" md="8">
         <!-- Back to Home Button -->
         <v-btn color="primary" class="mb-4" outlined @click="$router.push('/Homepage')">
-          <v-icon left>mdi-arrow-left</v-icon> 
+          <v-icon left>mdi-arrow-left</v-icon>
         </v-btn>
 
         <v-card class="profile-card" elevation="12" rounded="xl">
@@ -21,7 +21,7 @@
             <v-avatar size="100" class="elevation-5 profile-avatar">
               <v-img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" />
             </v-avatar>
-            <h2 class="mt-4 font-weight-bold">Juan Dela Cruz</h2>
+            <h2 class="mt-4 font-weight-bold">{{ userData.fullName }}</h2>
             <v-chip color="blue lighten-4" class="mt-1 mb-3" label>
               <v-icon left small>mdi-account-check</v-icon> Verified Customer
             </v-chip>
@@ -41,15 +41,15 @@
                 <v-row>
                   <v-col cols="12" md="6">
                     <strong>Address:</strong><br />
-                    Blk 10 Lot 5, Butuan City
+                    {{ userData.streetAddress }}
                   </v-col>
                   <v-col cols="12" md="6">
                     <strong>Contact:</strong><br />
-                    +63 912 345 6789
+                    {{ userData.contactNumber }}
                   </v-col>
                   <v-col cols="12" md="6" class="mt-3">
                     <strong>Email:</strong><br />
-                    juan.delacruz@email.com
+                    {{ userData.email }}
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -73,34 +73,39 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  name: 'HydroswiftProfile',
-  data() {
-    return {
-      tab: 0,
-    }
-  },
+<script setup>
+import { ref, onMounted } from 'vue'
+import { supabase } from '@/utils/supabase'
+import { useRouter } from 'vue-router'
+
+const userData = ref({
+  fullName: '',
+  email: '',
+  contactNumber: '',
+  streetAddress: '',
+})
+
+const router = useRouter()
+
+// Get session and fetch user metadata
+const fetchUserProfile = async () => {
+  const { data: { session } } = await supabase.auth.getSession()
+
+  if (!session) {
+    router.push('/Login') // if not logged in
+    return
+  }
+
+  const user = session.user
+
+  // Set metadata from user object
+  userData.value = {
+    fullName: user.user_metadata.fullName || '',
+    email: user.email,
+    contactNumber: user.user_metadata.contactNumber || '',
+    streetAddress: user.user_metadata.streetAddress || '',
+  }
 }
+
+onMounted(fetchUserProfile)
 </script>
-
-<style scoped>
-.profile-section {
-  background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-  min-height: 100vh;
-}
-
-.profile-card {
-  overflow: hidden;
-}
-
-.profile-avatar {
-  margin-top: -60px;
-  border: 4px solid white;
-  background-color: white;
-}
-
-.dark-theme .profile-section {
-  background: linear-gradient(to bottom, #263238, #37474f);
-}
-</style>
