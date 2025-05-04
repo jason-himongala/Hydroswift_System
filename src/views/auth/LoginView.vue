@@ -1,7 +1,7 @@
 <script setup>
 import { formActionDefault, supabase } from '@/utils/supabase'
 import { ref } from 'vue'
-import { requiredValidator, emailValidator, passwordValidator } from '@/utils/validators'
+import { requiredValidator, emailValidator, simplePasswordValidator } from '@/utils/validators'
 import { useRouter } from 'vue-router'
 
 const theme = ref('light')
@@ -104,7 +104,7 @@ const formAction = ref({ ...formActionDefault })
                   v-model="formData.password"
                   :type="isPasswordVisible ? 'text' : 'password'"
                   label="Password"
-                  :rules="[requiredValidator, passwordValidator]"
+                  :rules="[requiredValidator, simplePasswordValidator]"
                   prepend-inner-icon="mdi-lock"
                   :append-inner-icon="isPasswordVisible ? 'mdi-eye-off' : 'mdi-eye'"
                   @click:append-inner="isPasswordVisible = !isPasswordVisible"
