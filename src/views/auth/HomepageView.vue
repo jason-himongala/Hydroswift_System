@@ -12,10 +12,10 @@ function toggleTheme() {
 </script>
 
 <template>
-  <v-responsive
-    :class="['home-background', theme === 'dark' ? 'dark-overlay' : 'light-overlay']"
-    style="min-height: 100vh; transition: background 0.6s ease"
-  >
+  <v-responsive class="home-wrapper" :class="[theme === 'dark' ? 'dark-overlay' : 'light-overlay']">
+    <!-- Fixed background -->
+    <div class="home-background"></div>
+
     <v-app :theme="theme">
       <!-- App Bar -->
       <v-app-bar flat color="transparent" class="fade-in-top">
@@ -54,18 +54,12 @@ function toggleTheme() {
             <v-list-item-icon><v-icon>mdi-history</v-icon></v-list-item-icon>
             <v-list-item-title>Order History</v-list-item-title>
           </v-list-item>
-          <v-list-item link @click="router.push('/subscription')">
-            <v-list-item-icon><v-icon>mdi-email-newsletter</v-icon></v-list-item-icon>
-            <v-list-item-title>Subscription</v-list-item-title>
-          </v-list-item>
+
           <v-list-item link @click="router.push('/settings')">
             <v-list-item-icon><v-icon>mdi-cog</v-icon></v-list-item-icon>
             <v-list-item-title>Settings</v-list-item-title>
           </v-list-item>
-          <v-list-item link @click="router.push('/support')">
-            <v-list-item-icon><v-icon>mdi-lifebuoy</v-icon></v-list-item-icon>
-            <v-list-item-title>Support</v-list-item-title>
-          </v-list-item>
+
           <v-divider class="my-2"></v-divider>
           <v-list-item link @click="router.push('/Login')">
             <v-list-item-icon><v-icon>mdi-logout</v-icon></v-list-item-icon>
@@ -74,7 +68,7 @@ function toggleTheme() {
         </v-list>
       </v-navigation-drawer>
 
-      <!-- Main Content with Transition -->
+      <!-- Main Content -->
       <v-main>
         <v-container class="text-center py-10 fade-in-up">
           <v-row class="d-flex justify-center">
@@ -126,23 +120,23 @@ function toggleTheme() {
 </template>
 
 <style scoped>
-.home-background {
-  background-image: url('/image/bg-photo.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+/* Main full-screen wrapper */
+.home-wrapper {
   position: relative;
+  min-height: 100vh;
+  overflow: hidden;
   z-index: 0;
 }
 
+/* Overlays for themes */
 .dark-overlay::before,
 .light-overlay::before {
   content: '';
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: -1;
   transition: background-color 0.6s ease;
 }
@@ -191,6 +185,7 @@ function toggleTheme() {
   box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
 }
 
+/* Keyframes */
 @keyframes fadeInUp {
   0% {
     opacity: 0;

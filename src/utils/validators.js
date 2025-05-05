@@ -1,3 +1,6 @@
+// 👉 For login (just check if not empty)
+export const simplePasswordValidator = (password) => !!password || 'Password is required.'
+
 // 👉 IsEmpty
 export const isEmpty = (value) => {
   // Null, undefined, or empty string
@@ -52,7 +55,7 @@ export const passwordValidator = (password) => {
   const validPassword = regExp.test(password)
 
   return (
-     //geslint-disable-next-line operator-linebreak
+    //geslint-disable-next-line operator-linebreak
     validPassword ||
     'The password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.'
   )

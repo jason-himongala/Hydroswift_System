@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import {
   requiredValidator,
@@ -7,8 +6,10 @@ import {
   passwordValidator,
   confirmedValidator,
 } from '@/utils/validators'
+import { ref } from 'vue'
+import { supabase, formActionDefault } from '@/utils/supabase'
 
-const form = ref({
+const formDataDefault = ref({
   fullName: '',
   password: '',
   passwordConfirm: '',
@@ -27,21 +28,74 @@ function goBack() {
   router.back()
 }
 
-function onRegister() {
-  alert(`Registering Customer: ${form.value.fullName}`)
-  router.push('/Confirmation')
-}
-
 const onFormSubmit = () => {
   refVForm.value?.validate().then(({ valid }) => {
     if (valid) {
-      onRegister()
+      onSubmit()
     }
   })
 }
+
+const onSubmit = async () => {
+  formAction.value.formProcess = true
+
+  const { data, error } = await supabase.auth.signUp({
+    email: form.value.email,
+    password: form.value.password,
+    options: {
+      data: {
+        fullName: form.value.fullName,
+        contactNumber: form.value.contactNumber,
+        streetAddress: form.value.streetAddress,
+      },
+    },
+  })
+
+  if (error) {
+    console.log(error)
+    formAction.value.formErrorMessage = error.message
+    formAction.value.formStatus = error.message
+  } else if (data) {
+    console.log(data)
+    formAction.value.formSuccessMessage = 'Successfully Registered Account.'
+    refVForm.value?.reset()
+
+    // ✅ Automatically go to confirmation page after success
+    router.push('/Confirmation')
+  }
+
+  formAction.value.formProcess = false
+}
+
+const form = ref({
+  ...formDataDefault.value,
+})
+
+const formAction = ref({ ...formActionDefault })
 </script>
 
 <template>
+  <v-alert
+    v-if="formAction.formSuccessMessage"
+    :text="formAction.formSuccessMessage"
+    title="Success!"
+    type="success"
+    variant="tonal"
+    density="compact"
+    border="start"
+    closable
+  ></v-alert>
+  <v-alert
+    v-if="formAction.formErrorMessage"
+    :text="formAction.formErrorMessage"
+    title="Ooops!"
+    type="error"
+    variant="tonal"
+    density="compact"
+    border="start"
+    closable
+  ></v-alert>
+
   <v-app>
     <v-main>
       <v-container class="py-8 d-flex align-center justify-center bg-gradient border rounded">
@@ -163,6 +217,8 @@ const onFormSubmit = () => {
               size="large"
               class="mt-4"
               style="font-weight: bold; font-style: italic"
+              :disabled="formAction.formProcess"
+              :loading="formAction.formProcess"
             >
               Register
             </v-btn>
