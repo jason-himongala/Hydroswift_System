@@ -49,11 +49,11 @@ onMounted(async () => {
       <v-col cols="12" md="8">
         <v-card class="pa-6" elevation="12" rounded="xl">
           <v-card-title class="text-center text-h5 font-weight-bold mb-4">
-            ✅ Order Confirmed!
+            Order Confirmed!
           </v-card-title>
 
           <v-card-subtitle class="text-center mb-6 text-subtitle-1">
-            Thank you, {{ userData.fullName }}. Your order is now being delivered. 💧🚚
+            Thank you, {{ userData.fullName }}. Your order is now being delivered. 💧
           </v-card-subtitle>
 
           <v-divider class="my-4"></v-divider>
