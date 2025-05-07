@@ -1,102 +1,80 @@
 <script setup>
-import { ref, computed } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { supabase } from '@/utils/supabase'
 
 const route = useRoute()
-const router = useRouter()
 
-const stations = ref([])
+// Get passed query params from OrderView
+const station = ref({})
+const total = ref(0)
 
-if (route.query.stations) {
-  try {
-    stations.value = JSON.parse(route.query.stations)
-  } catch (e) {
-    console.error("Error parsing stations", e)
+// For customer profile
+const userData = ref({
+  fullName: '',
+  email: '',
+  contactNumber: '',
+  streetAddress: '',
+})
+
+onMounted(async () => {
+  // Parse data passed from OrderView
+  if (route.query.station) {
+    station.value = JSON.parse(route.query.station)
   }
-}
-
-const totalAmount = computed(() =>
-  stations.value.reduce((acc, item) => acc + item.price * item.quantity, 0)
-)
-
-// Form data
-const fullName = ref('')
-const address = ref('')
-const contact = ref('')
-const paymentMethod = ref('')
-
-const confirmOrder = () => {
-  if (!fullName.value || !address.value || !contact.value || !paymentMethod.value) {
-    alert('Please fill out all the fields before confirming your order.')
-    return
+  if (route.query.total) {
+    total.value = parseFloat(route.query.total)
   }
 
-  alert(`Order placed successfully!\nPayment Method: ${paymentMethod.value}`)
-  router.push('/Homepage')
-}
+  // Fetch logged-in user data
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  const user = session?.user
+
+  if (user) {
+    userData.value = {
+      fullName: user.user_metadata.fullName || '',
+      email: user.email,
+      contactNumber: user.user_metadata.contactNumber || '',
+      streetAddress: user.user_metadata.streetAddress || '',
+    }
+  }
+})
 </script>
 
 <template>
-  <v-app>
-    <v-main>
-      <v-container class="py-10">
-        <h1 class="text-h5 font-weight-bold mb-6 text-center">Confirm Your Order</h1>
+  <v-container class="py-10 px-4">
+    <v-row justify="center">
+      <v-col cols="12" md="8">
+        <v-card class="pa-6" elevation="12" rounded="xl">
+          <v-card-title class="text-center text-h5 font-weight-bold mb-4">
+            ✅ Order Confirmed!
+          </v-card-title>
 
-        <v-row justify="center" class="mb-6">
-          <v-col
-            v-for="(station, index) in stations"
-            :key="index"
-            cols="12"
-            md="6"
-          >
-            <v-card class="pa-4" elevation="6" rounded="xl">
-              <v-row no-gutters align="center">
-                <v-col cols="4">
-                  <v-img :src="station.image" height="100" contain></v-img>
-                </v-col>
-                <v-col cols="8">
-                  <v-card-title class="text-subtitle-1">{{ station.name }}</v-card-title>
-                  <v-card-subtitle class="text-body-2">₱{{ station.price }} × {{ station.quantity }}</v-card-subtitle>
-                  <div class="text-body-1 font-weight-bold">₱{{ station.price * station.quantity }}</div>
-                </v-col>
-              </v-row>
-            </v-card>
-          </v-col>
-        </v-row>
+          <v-card-subtitle class="text-center mb-6 text-subtitle-1">
+            Thank you, {{ userData.fullName }}. Your order is now being delivered. 💧🚚
+          </v-card-subtitle>
 
-        <v-divider class="my-4"></v-divider>
+          <v-divider class="my-4"></v-divider>
 
-        <div class="text-h6 text-center mb-4">Total: ₱{{ totalAmount }}</div>
+          <h3 class="text-h6 mb-2">📦 Order Summary</h3>
+          <p><strong>Station:</strong> {{ station.name }}</p>
+          <p><strong>Quantity:</strong> {{ station.quantity }} gallon(s)</p>
+          <p><strong>Total Payment:</strong> ₱{{ total }}</p>
 
-        <v-row justify="center">
-          <v-col cols="12" md="6">
-            <v-text-field label="Full Name" outlined dense v-model="fullName" required></v-text-field>
-            <v-text-field label="Delivery Address" outlined dense v-model="address" required></v-text-field>
-            <v-text-field label="Contact Number" outlined dense v-model="contact" required></v-text-field>
-
-            <v-select
-              label="Select Payment Method"
-              :items="['GCash', 'Cash on Delivery', 'Credit/Debit Card']"
-              v-model="paymentMethod"
-              outlined
-              dense
-              required
-            ></v-select>
-          </v-col>
-        </v-row>
-
-        <v-row justify="center">
-          <v-btn color="blue-darken-2" class="text-white px-8 py-4" @click="confirmOrder" v-motion-pop>
-            Confirm & Pay
-          </v-btn>
-        </v-row>
-      </v-container>
-    </v-main>
-  </v-app>
+          <div class="text-center mt-6">
+            <v-icon color="green" size="40">mdi-check-circle</v-icon>
+            <p class="mt-2 font-weight-bold text-h6">Thank you for choosing HydroSwift!</p>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-body {
-  background-color: #f5faff;
+p {
+  margin: 4px 0;
 }
 </style>
